@@ -1,6 +1,7 @@
 // Ye this is hopefully turning into a music player at some point
 #include <iostream>
-#include "parseInput.cpp"
+#include "src/parseInput.cpp"
+#include "portaudio.h"
 using namespace std;
 
 int main(int argc, char* argv[]) {
