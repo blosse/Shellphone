@@ -28,5 +28,5 @@ int parseInput(int argc, char* argv[]) {
             cout << "Hey! Thats no .wav file!";
         }
     }
-    return 0;
+    return 1;
 }

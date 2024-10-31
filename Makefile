@@ -9,7 +9,7 @@ CXX = g++
 CXXFLAGS = -I/opt/homebrew/include
 
 # Linker Flags
-LDFLAGS = -L/opt/homebrew/lib -lportaudio
+LDFLAGS = -L/opt/homebrew/lib -lportaudio -lsndfile
 
 # Target executable
 TARGET = shellphone
