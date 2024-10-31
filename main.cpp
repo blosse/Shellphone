@@ -16,16 +16,13 @@ static int audioCallback(
     PaStreamCallbackFlags statusFlags,
     void *userData) {
         SNDFILE *infile = (SNDFILE*)userData;
-        double buffer[BUFFER_LEN];
-        int framesRead = sf_read_double(infile, buffer, framesPerBuffer);
+        float *out = (float*)outputBuffer;
+        int framesRead = sf_readf_float(infile, out, framesPerBuffer);
 
         if (framesRead < framesPerBuffer) {
             return paComplete; //End of file
         }
-
-        //Copy samples to the output buffer
-        memcpy(outputBuffer, buffer, framesRead * sizeof(double));
-        return paComplete;
+        return paContinue;
     }
 
 int main(int argc, char* argv[]) {
@@ -35,7 +32,6 @@ int main(int argc, char* argv[]) {
     if (!parseInput(argc, argv)) {
         return 1;
     }
-
 
     SF_INFO sfinfo;
     SNDFILE *infile;
@@ -64,7 +60,7 @@ int main(int argc, char* argv[]) {
     PaStreamParameters outputParams;
     outputParams.device = Pa_GetDefaultOutputDevice();
     outputParams.channelCount = sfinfo.channels;
-    outputParams.sampleFormat = paFloat32; //TODO Change according to input file's format
+    outputParams.sampleFormat = paFloat32;
     outputParams.suggestedLatency = Pa_GetDeviceInfo(outputParams.device)->defaultLowOutputLatency;
     outputParams.hostApiSpecificStreamInfo = NULL;
 
